@@ -52,12 +52,12 @@ Expected equality of these values:
 Expected equality of these values:
   44
   get_my_age()
-    Which is: -1542667784
+    Which is: -1880989192
 [  FAILED  ] set_my_age.works (0 ms)
 [----------] 1 test from set_my_age (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 2 tests from 2 test suites ran. (0 ms total)
+[==========] 2 tests from 2 test suites ran. (1 ms total)
 [  PASSED  ] 0 tests.
 [  FAILED  ] 2 tests, listed below:
 [  FAILED  ] print_binary_representation.works
