@@ -1,12 +1,22 @@
+#include <climits>
 #include "gtest/gtest.h"
+#include <math.h>
 
-char * print_binary_representation(unsigned int i, char *buffer){
+char * print_binary_representation(unsigned int f, char *buffer){
     buffer[0] = '0';
     buffer[1] = 'b';
-    // fill out remaining 32 bits, 1 or 0 depending on the value in the number i
+    int x = 2;
+    unsigned i;
+    for (i = 1 << 31; i > 0; i = i / 2) {
+        (f & i) ? buffer[x] = '1' : buffer[x] = '0';
+        x++;
+    }
+    // fill out remaining 32 bits, 1 or 0 depending on the value in the number
+
     return buffer;
 }
-
+//0b00000000000000000000000000000000
+//0b000000000000000000000000000000000
 /* PROBLEM 1: Implement a print_binary_representation function that takes an
  * unsigned integer and created as string representation of the binary values
  * of that number.
@@ -37,15 +47,15 @@ struct Person {
     int age;
 };
 
-void set_my_age(struct Person p) {
-    p.age = 44;
+void set_my_age(struct Person *p) {
+    p->age = 44;
 }
 
 int get_my_age() {
     struct Person me;
     me.name = "Carson";
-    set_my_age(me);
-    return me.age;
+    set_my_age(&me);
+    return (me.age);
 }
 
 TEST(set_my_age, works) {
