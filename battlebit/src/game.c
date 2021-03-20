@@ -72,15 +72,15 @@ int game_load_board(struct game *game, int player, char * spot) {
         char ships[] = {'c', 'b', 'd', 's', 'p'};
         for (int i = 0; i < 15; i += 3) {
             int length;
-            for (int z = 0; z < sizeof(ships); z++) {
-                if (sizeof(useds) >= z && tolower(spot[i]) == tolower(useds[z])) {  //same ships
+            for (int x = 0; x < sizeof(ships); x++) {
+                if (sizeof(useds) >= x && tolower(spot[i]) == tolower(useds[x])) {  //same ships
 
                     return -1;
                 }
-                if (tolower(spot[i]) == ships[z]) { //find length of ship
-                    length = lengths[z];
+                if (tolower(spot[i]) == ships[x]) { //find length of ship
+                    length = lengths[x];
                     break;
-                } else if (z == sizeof(ships) - 1) {
+                } else if (x == sizeof(ships) - 1) {
                     return -1;
                 }
             }
