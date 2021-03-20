@@ -4,6 +4,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <tgmath.h>
+#include <string.h>
+#include <argp.h>
 #include "game.h"
 
 // STEP 9 - Synchronization: the GAME structure will be accessed by both players interacting
@@ -42,6 +45,7 @@ int game_fire(game *game, int player, int x, int y) {
 }
 
 unsigned long long int xy_to_bitval(int x, int y) {
+    return (x > 7 | y > 7 | x < 0 | y < 0) ? 0 : (1ull << (x + (y * 8)));
     // Step 1 - implement this function.  We are taking an x, y position
     // and using bitwise operators, converting that to an unsigned long long
     // with a 1 in the position corresponding to that x, y
@@ -53,14 +57,54 @@ unsigned long long int xy_to_bitval(int x, int y) {
     //
     // you will need to use bitwise operators and some math to produce the right
     // value.
-    return 1ull;
+
 }
 
 struct game * game_get_current() {
     return GAME;
 }
 
-int game_load_board(struct game *game, int player, char * spec) {
+int game_load_board(struct game *game, int player, char * spot) {
+    if (spot != NULL && strlen(spot) == 15) {
+        unsigned long long int originalBoard = game->players[player].ships;
+        char useds[5] = {};
+        int lengths[] = {5, 4, 3, 3, 2};
+        char ships[] = {'c', 'b', 'd', 's', 'p'};
+        for (int i = 0; i < 15; i += 3) {
+            int length;
+            for (int z = 0; z < sizeof(ships); z++) {
+                if (sizeof(useds) >= z && tolower(spot[i]) == tolower(useds[z])) {  //same ships
+
+                    return -1;
+                }
+                if (tolower(spot[i]) == ships[z]) { //find length of ship
+                    length = lengths[z];
+                    break;
+                } else if (z == sizeof(ships) - 1) {
+                    return -1;
+                }
+            }
+            strncat(useds, &spot[i], 1);
+            int result;
+            result = (spot[i] >= 'A' && spot[i] <= 'Z') ?
+                     add_ship_horizontal(&game->players[player], ((int) spot[i + 1] - '0'), ((int) spot[i + 2] - '0'),
+                                         length) :
+                     add_ship_vertical(&game->players[player], ((int) spot[i + 1] - '0'), ((int) spot[i + 2] - '0'),
+                                       length);
+            if (result == -1) { //reset board if -1
+                game->players[player].ships = originalBoard;
+                return -1;
+            }
+        }
+        int opp = (player == 0) ? 1 : 0;
+        game->status = (game->players[player].ships != 0 && game->players[opp].ships != 0) ? PLAYER_0_TURN
+                                                                                           : CREATED;
+        return 1;
+    } else {
+        return -1;
+    }
+
+}
     // Step 2 - implement this function.  Here you are taking a C
     // string that represents a layout of ships, then testing
     // to see if it is a valid layout (no off-the-board positions
@@ -72,16 +116,31 @@ int game_load_board(struct game *game, int player, char * spec) {
     // slot and return 1
     //
     // if it is invalid, you should return -1
-}
+
 
 int add_ship_horizontal(player_info *player, int x, int y, int length) {
+    if (length == 0)
+        return 1;
+    if ((player->ships ^ xy_to_bitval(x, y)) > player->ships) {  //makes sure the ships arent overlapping
+        player->ships ^= xy_to_bitval(x, y);
+        return add_ship_horizontal(player, ++x, y, --length);
+    } else
+        return -1;
+}
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
-}
+
 
 int add_ship_vertical(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+    if (length == 0)
+        return 1;
+    if ((player->ships ^ xy_to_bitval(x, y)) > player->ships) { //overlapping
+        player->ships ^= xy_to_bitval(x, y);
+        return add_ship_vertical(player, x, ++y, --length);
+    } else
+        return -1;
 }
