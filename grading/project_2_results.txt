@@ -57,28 +57,28 @@ string: Foo
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:12: Failure
 Expected equality of these values:
   game_fire(gameon,1,0,0)
-    Which is: -72740688
+    Which is: -922890064
   0
 [  FAILED  ] game_fire.empty_game (0 ms)
 [ RUN      ] game_fire.hit_fire
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:21: Failure
 Expected equality of these values:
   game_fire(gameon,1,0,0)
-    Which is: -72740688
+    Which is: -922890064
   1
 [  FAILED  ] game_fire.hit_fire (0 ms)
 [ RUN      ] game_fire.hit_fire2
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:45: Failure
 Expected equality of these values:
   game_fire(gameon,0,0,0)
-    Which is: -72740688
+    Which is: -922890064
   1
 [  FAILED  ] game_fire.hit_fire2 (0 ms)
 [ RUN      ] game_fire.miss_fire
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:70: Failure
 Expected equality of these values:
   game_fire(gameon,1,5,0)
-    Which is: -72740688
+    Which is: -922890064
   0
 [  FAILED  ] game_fire.miss_fire (0 ms)
 [ RUN      ] game_fire.miss_fire2
@@ -94,24 +94,24 @@ Expected equality of these values:
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:125: Failure
 Expected equality of these values:
   game_fire(gameon,0,1,0)
-    Which is: -72740688
+    Which is: -922890064
   0
-[  FAILED  ] game_fire.miss_fire2 (1 ms)
+[  FAILED  ] game_fire.miss_fire2 (0 ms)
 [ RUN      ] game_fire.invalid_fire
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:180: Failure
 Expected equality of these values:
   game_fire(gameon,1,8,0)
-    Which is: -72740688
+    Which is: -922890064
   0
 [  FAILED  ] game_fire.invalid_fire (0 ms)
-[----------] 6 tests from game_fire (1 ms total)
+[----------] 6 tests from game_fire (0 ms total)
 
 [----------] 1 test from game_status
 [ RUN      ] game_status.is_correct
 /home/carson/Projects/msu/csci-366-spring2021/grading/scripts/repos/jordan_kelly/battlebit/googletest/game2.cpp:202: Failure
 Expected equality of these values:
   game_fire(pGame,0,0,0)
-    Which is: -72740688
+    Which is: -922890064
   1
 [  FAILED  ] game_status.is_correct (0 ms)
 [----------] 1 test from game_status (0 ms total)
@@ -184,8 +184,8 @@ With diff:
 +6                 
 +7 M               \n
 
-[  FAILED  ] repl_print_hits.print_miss (0 ms)
-[----------] 2 tests from repl_print_hits (0 ms total)
+[  FAILED  ] repl_print_hits.print_miss (1 ms)
+[----------] 2 tests from repl_print_hits (1 ms total)
 
 [----------] Global test environment tear-down
 [==========] 23 tests from 9 test suites ran. (1 ms total)
