@@ -101,6 +101,29 @@ void repl_print_board(game *game, int player, char_buff * buffer) {
 }
 
 void repl_print_ships(player_info *player_info, char_buff *buffer) {
+    if (player_info != NULL && buffer != NULL) {
+        cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
+        for (int j = 0; j < 8; j++) {
+            for (int k = 0; k < 8; k++) {
+                if (k == 0) {
+                    char *var = malloc(sizeof(char));
+                    sprintf(var, "%d", j);
+                    strncat(buffer->buffer, var, 1);
+                    free(var);
+                }
+                if ((player_info->ships ^ xy_to_bitval(k, j)) < player_info->ships) { //there be a ship here
+                    strncat(buffer->buffer, " *", 2);
+                    if (k == 7) {
+                        strncat(buffer->buffer, " \n", 2);
+                        continue;
+                    }
+                } else
+                    strncat(buffer->buffer, "  ", 2);
+                if (k == 7)
+                    strncat(buffer->buffer, " \n", 2);
+            }
+        }
+    }
     // Step 3 - Implement this to print out the visual ships representation
     //  for the console.  You will need to use bit masking for each position
     //  to determine if a ship is at the position or not.  If it is present
@@ -108,6 +131,36 @@ void repl_print_ships(player_info *player_info, char_buff *buffer) {
 }
 
 void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) {
+    if (player_info != NULL && buffer != NULL) {
+        cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                unsigned long long int hits = xy_to_bitval(x, y);
+                if (x == 0) {
+                    char *var = malloc(sizeof(char));
+                    sprintf(var, "%d", y);
+                    strncat(buffer->buffer, var, 1);
+                    free(var);
+                }
+                if ((player_info->hits ^ hits) < player_info->hits) { //there be a ship here aarrr
+                    strncat(buffer->buffer, " H", 2);
+                    if (x == 7) {
+                        strncat(buffer->buffer, " \n", 2);
+                        continue;
+                    }
+                } else if ((player_info->shots ^ hits) < player_info->shots) {
+                    strncat(buffer->buffer, " M", 2);
+                    if (x == 7) {
+                        strncat(buffer->buffer, " \n", 2);
+                        continue;
+                    }
+                } else
+                    strncat(buffer->buffer, "  ", 2);
+                if (x == 7)
+                    strncat(buffer->buffer, " \n", 2);
+            }
+        }
+    }
     // Step 4 - Implement this to print out a visual representation of the shots
     // that the player has taken and if they are a hit or not.  You will again need
     // to use bit-masking, but this time you will need to consult two values: both
