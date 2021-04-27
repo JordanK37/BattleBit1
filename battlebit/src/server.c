@@ -177,31 +177,39 @@ int run_server() {
     //
     // You will then create a thread running handle_client_connect, passing the player number out
     // so they can interact with the server asynchronously
-    if(SERVER!=NULL){
+    if (SERVER != NULL) {
         int server_socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (server_socket_fd == -1) //catches and waits till incoming connection
-            printf("Socket not connected\n");
+        if (server_socket_fd == -1)
+            printf("Could not create socket\n");
         else {
-            int success = 1;
-            setsockopt(server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &success, sizeof(success));
-            struct sockaddr_in svr;
-            svr.sin_family = AF_INET;
-            svr.sin_addr.s_addr = INADDR_ANY;
-            svr.sin_port = htons(9876);
-            if (bind(server_socket_fd, (struct sockaddr *) &svr, sizeof(svr)) < 0) {
+            int yes = 1;
+            setsockopt(server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+
+            struct sockaddr_in server;
+            server.sin_family = AF_INET;
+
+            server.sin_addr.s_addr = INADDR_ANY;
+            server.sin_port = htons(9876);
+
+            if (bind(server_socket_fd, (struct sockaddr *) &server, sizeof(server)) < 0) {
                 puts("Bind failed");
             } else {
                 puts("Binded");
                 listen(server_socket_fd, 2);
+
                 puts("Waiting for incoming connections...");
+
                 struct sockaddr_in client;
                 socklen_t size_from_connect;
                 int client_socket_fd, player = 0;
-                while ((client_socket_fd = accept(server_socket_fd,(struct sockaddr *) &client, &size_from_connect)) > 0 && player < 2) {
+                while ((client_socket_fd = accept(server_socket_fd,
+                                                  (struct sockaddr *) &client,
+                                                  &size_from_connect)) > 0 && player < 2) {
                     SERVER->player_sockets[player] = client_socket_fd;
                     pthread_create(&SERVER->player_threads[player], NULL, (void *) handle_client_connect, player);
                     puts("Player connected");
                     player++;
+
                 }
             }
         }
@@ -213,9 +221,8 @@ int server_start() {
     // STEP 6 - using a pthread, run the run_server() function asynchronously, so you can still
     // interact with the game via the command line REPL
     init_server();
-    if (SERVER->server_thread == 0) {
-        pthread_create(&SERVER->server_thread, NULL, (void *) run_server(), NULL);
-    } else {
-        printf("The server already is started");
-    }
+    if (SERVER->server_thread == 0)
+        pthread_create(&SERVER->server_thread, NULL, (void *) run_server, NULL);
+    else
+        printf("Server Thread Already Running!");
 }

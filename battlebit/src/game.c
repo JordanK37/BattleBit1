@@ -43,15 +43,15 @@ int game_fire(game *game, int player, int x, int y) {
     //
     //  If the opponents ships value is 0, they have no remaining ships, and you should set the game state to
     //  PLAYER_1_WINS or PLAYER_2_WINS depending on who won.
-    unsigned long long int fireBitMask = xy_to_bitval(x, y);
-    if (fireBitMask != 0 && game != NULL) {
+    unsigned long long int fire = xy_to_bitval(x, y);
+    if (fire != 0 && game != NULL) {
         int opponentPlayer = (player == 0) ? 1 : 0; //the players shot value updates
-        game->players[player].shots ^= fireBitMask; //see if its ahit
+        game->players[player].shots ^= fire; //see if its ahit
         unsigned long long int opponentsShips = game->players[opponentPlayer].ships;
         game->status = (player == 0) ? PLAYER_1_TURN : PLAYER_0_TURN;
-        if ((opponentsShips ^ fireBitMask) < opponentsShips) { //if its a hit
-            game->players[player].hits ^= fireBitMask;
-            game->players[opponentPlayer].ships ^= fireBitMask;
+        if ((opponentsShips ^ fire) < opponentsShips) { //if its a hit
+            game->players[player].hits ^= fire;
+            game->players[opponentPlayer].ships ^= fire;
             if (game->players[0].ships == 0)
                 game->status = PLAYER_1_WINS;
             else if (game->players[1].ships == 0)

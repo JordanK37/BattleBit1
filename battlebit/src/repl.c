@@ -53,21 +53,15 @@ void repl_execute_command(struct char_buff * buffer) {
         } else if(strcmp(command, "server") == 0) {
             server_start();
         } else if(strcmp(command, "show") == 0) {
-
             struct char_buff *boardBuffer = cb_create(2000);
             repl_print_board(game_get_current(), atoi(arg1), boardBuffer);
             printf("%s", boardBuffer->buffer);
             cb_free(boardBuffer);
-
         } else if(strcmp(command, "reset") == 0) {
-
             game_init();
-
         } else if (strcmp(command, "load") == 0) {
-
             int player = atoi(arg1);
             game_load_board(game_get_current(), player, arg2);
-
         } else if (strcmp(command, "fire") == 0) {
             int player = atoi(arg1);
             int x = atoi(arg2);
@@ -83,6 +77,9 @@ void repl_execute_command(struct char_buff * buffer) {
                     printf("  Miss");
                 }
             }
+        }else if (strcmp(command, "shortcut") == 0) {
+                // updates short cut player 1 to only have a single ship in position 0, 0
+                game_get_current()->players[1].ships = 1ull;
         } else {
             printf("Unknown Command: %s\n", command);
         }
