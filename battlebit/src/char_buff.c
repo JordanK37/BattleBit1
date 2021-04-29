@@ -12,8 +12,8 @@ struct char_buff * cb_create(int size) {
     struct char_buff * char_buff = malloc(sizeof(struct char_buff));
     char_buff->buffer = malloc(sizeof(char) * (size + 1));
     char_buff->size = size;
-    char_buff->buffer[char_buff->size] = '\0'; // null terminate end as well
-    char_buff->buffer[0] = '\0'; // null terminate
+    char_buff->buffer[char_buff->size] = '\0'; // null terminate the end
+    char_buff->buffer[0] = '\0';
     char_buff->append_offset = 0;
     return char_buff;
 }

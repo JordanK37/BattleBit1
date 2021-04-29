@@ -57,7 +57,9 @@ int handle_client_connect(int player) {
         if (command) {
             char *arg1 = cb_next_token(input_buff);
             char *arg2 = cb_next_token(input_buff);
+
             char *arg3 = cb_next_token(input_buff);
+
             if (strcmp(command, "help") == 0) {
                 cb_append(output_buff, "good luck");
                 cb_write(client_socket, output_buff);

@@ -12,10 +12,10 @@
 struct char_buff * repl_read_command(char * prompt) {
     printf("%s", prompt);
     char *line = NULL;
-    size_t buffer_size = 0; // let getline autosize it
+    size_t buffer_size = 0; // getline autosizes
     if (getline(&line, &buffer_size, stdin) == -1) {
         if (feof(stdin)) {
-            exit(EXIT_SUCCESS);  // We received an EOF
+            exit(EXIT_SUCCESS);
         } else  {
             perror("readline");
             exit(EXIT_FAILURE);
@@ -108,7 +108,7 @@ void repl_print_ships(player_info *player_info, char_buff *buffer) {
                     strncat(buffer->buffer, var, 1);
                     free(var);
                 }
-                if ((player_info->ships ^ xy_to_bitval(k, j)) < player_info->ships) { //there be a ship here
+                if ((player_info->ships ^ xy_to_bitval(k, j)) < player_info->ships) { //seeing if there is a ship here
                     strncat(buffer->buffer, " *", 2);
                     if (k == 7) {
                         strncat(buffer->buffer, " \n", 2);
@@ -139,7 +139,7 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
                     strncat(buffer->buffer, var, 1);
                     free(var);
                 }
-                if ((player_info->hits ^ hits) < player_info->hits) { //there be a ship here aarrr
+                if ((player_info->hits ^ hits) < player_info->hits) { // if there is a ship there to fire at
                     strncat(buffer->buffer, " H", 2);
                     if (x == 7) {
                         strncat(buffer->buffer, " \n", 2);
